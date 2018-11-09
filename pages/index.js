@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Head from '../components/head'
 import PersonalHeader from '../components/header'
 import PersonalFooter from '../components/footer'
+import BookBill from '../components/book/bookBill'
 import HomePage from '../components/home'
 import Nav from '../components/nav'
 
@@ -80,7 +81,9 @@ export default class extends React.Component {
                         <HomePage />
                     </Section>
                     <Section></Section>
-                    <Section></Section>
+                    <Section>
+                        <BookBill />
+                    </Section>
                     <Section></Section>
                 </SectionsContainer>
             </Content>
