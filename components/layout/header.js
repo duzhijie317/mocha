@@ -1,18 +1,26 @@
 import React from 'react'
 
-const personalHeader = () => (
+const links = [
+    {label: 'Home', href: '#home'},
+    {label: 'Blog', href: '#blog'},
+    {label: 'Books', href: '#book'},
+    {label: 'Contact', href: '#contact'},
+]
+
+const mochaHeader = props => (
     <div>
         <div className="logo shake-chunk">
-            <img className="logo-image" src="http://localhost:3000/static/images/bear-white.png"/>
+            <img className="logo-image" src="/static/images/bear-white.png"/>
         </div>
         <div className="title">
             <a className="title-text">mocha</a>
         </div>
         <div className="navigation">
-            <a className="navigation-text" href="#home">Home</a>
-            <a className="navigation-text" href="#blog">Blog</a>
-            <a className="navigation-text" href="#book">Book</a>
-            <a className="navigation-text" href="#contact">contact</a>
+            {links.map((link, index) => {
+                return (
+                    <a key={index} className={ props.current === index ? 'navigation-text active':'navigation-text'} href={link.href}>{link.label}</a>
+                )
+            })}
             <a className="navigation-text" href="#">Login</a>
         </div>
         <style jsx>{`
@@ -46,9 +54,14 @@ const personalHeader = () => (
                 color: white;
                 padding: 0 10px;
                 font-weight: 700;
+                display: inline-block;
+                text-decoration: none;
+              }
+              .navigation-text.active {
+                color: #fff900;
               }
             `}</style>
     </div>
 )
 
-export default personalHeader
+export default mochaHeader

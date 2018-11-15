@@ -32,6 +32,7 @@ const Head = props => (
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <link rel="stylesheet" type="text/css" href="/static/css/csshake.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css" />
   </NextHead>
 )
 

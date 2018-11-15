@@ -1,13 +1,13 @@
-import React, { Component }from 'react'
+import React from 'react'
 import {SectionsContainer, Section, ScrollToTopOnMount} from 'react-fullpage'
 import stylesheet from '../styles/index.less'
 import { Layout, Button } from 'antd'
 const { Header, Footer, Sider, Content } = Layout;
 import Link from 'next/link'
-import Head from '../components/head'
-import PersonalHeader from '../components/header'
-import PersonalFooter from '../components/footer'
-import BookBill from '../components/book/bookBill'
+import Head from '../components/common/head'
+import MochaHeader from '../components/layout/header'
+import MochaFooter from '../components/layout/footer'
+import BookHome from '../components/book/bookHome'
 import HomePage from '../components/home'
 import Nav from '../components/nav'
 
@@ -15,8 +15,9 @@ export default class extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: props.width ,
-            height: props.height
+            width: '' ,
+            height: '',
+            current: 0
         }
     }
 
@@ -37,6 +38,10 @@ export default class extends React.Component {
         }
     }
 
+    componentWillMount() {
+
+    }
+
     componentDidMount() {
         this.resize()
         window.addEventListener('resize', () => this.resize())
@@ -54,17 +59,29 @@ export default class extends React.Component {
     }
 
     render () {
-        let options = {
+        const options = {
             sectionClassName:     'section',
             anchors:              ['home', 'blog', 'book', 'contact'],
+            arrowNavigation:      true,
             scrollBar:            false,
             navigation:           true,
             verticalAlign:        false,
-            sectionPaddingTop:    '50px',
-            sectionPaddingBottom: '50px',
+            sectionPaddingTop:    '20px',
+            sectionPaddingBottom: '0px',
             arrowNavigation:      true,
             loopBottom:           true,
+            scrollCallback: (states) => {
+                this.setState({current: states.activeSection})
+                if ( states.activeSection===2 ) {
+                    this.bookHome.animate()
+                }else {
+                    this.bookHome.removeAnimate()
+                }
+            }
         };
+
+        const { current, height } = this.state
+
         return (
           <Layout>
             <Head title="Mocha" />
@@ -72,23 +89,26 @@ export default class extends React.Component {
                  position: "fixed",
                  width: "100%",
                  zIndex: "99" }}>
-                 <PersonalHeader />
+                 <MochaHeader current={ current }/>
              </Header>
             <Content style={{ background:'black'}}>
-                <ScrollToTopOnMount />
                 <SectionsContainer className="container" {...options}>
-                    <Section className="custom-section1">
+                    <Section style={{ overflow: "hidden" }} className="custom-section1">
                         <HomePage />
                     </Section>
-                    <Section></Section>
                     <Section>
-                        <BookBill />
+                        <h2 style={{ color: "white" }}>blog</h2>
                     </Section>
-                    <Section></Section>
+                    <Section>
+                        <BookHome height={ height } onRef={ (ref) => this.bookHome = ref} />
+                    </Section>
+                    <Section>
+                        <h2 style={{ color: "white" }}>contact</h2>
+                    </Section>
                 </SectionsContainer>
             </Content>
             <Footer>
-                <PersonalFooter content="Design by Du  2018"/>
+                <MochaFooter content="Design by Du"/>
             </Footer>
 
             <style jsx>{`
